@@ -1,27 +1,20 @@
 package com.dev.controllers;
 
 import com.dev.Persist;
-import com.dev.objects.PostObject;
+import com.dev.objects.MessageObject;
 import com.dev.objects.UserObject;
 import com.dev.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
-import javax.xml.bind.DatatypeConverter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Random;
 
 
 @RestController
 public class TestController {
-    private  List<UserObject> userObjects;
-
 
     @Autowired
     private Persist persist;
@@ -32,37 +25,15 @@ public class TestController {
     }
 
 
-
-    @RequestMapping(value = "/test", method = {RequestMethod.GET, RequestMethod.POST})
-    public Object test () {
-        return "Adi";
-    }
-
-    @RequestMapping(value = "/get-random-value", method = {RequestMethod.GET, RequestMethod.POST})
-    public int random () {
-        Random random = new Random();
-        return random.nextInt();
-    }
-
-    @RequestMapping(value = "/get-post", method = {RequestMethod.GET, RequestMethod.POST})
-    public PostObject getPost () {
-        PostObject postObject = new PostObject();
-        postObject.setSenderName("Shai Givati");
-        postObject.setContent("This is my first post.");
-        postObject.setDate("01-01-2021 10:04:05");
-        return postObject;
-    }
-
     @RequestMapping("sign-in")
     public String signIn (String username, String password) {
-        String token = persist.getTokenByUsernameAndPassword(username, password);
-        return token;
+        return persist.getTokenByUsernameAndPassword(username, password);
     }
 
     @RequestMapping("create-account")
     public boolean createAccount (String username, String password) {
         boolean success = false;
-        if(!persist.doesUsernameExists(username)){
+        if(!persist.doesUserExist(username)){
             UserObject userObjects = new UserObject();
             userObjects.setUsername(username);
             userObjects.setPassword(password);
@@ -74,31 +45,43 @@ public class TestController {
     }
 
 
-    @RequestMapping("add-post")
-    public boolean addPost (String token, String content) {
-        return persist.addPost(token,content);
+    @RequestMapping("getUsernameById")
+    public String getUsernameById (int userId) {
+        return persist.getUsernameById(userId);
+    }
+
+    @RequestMapping("get-all-messages")
+    public List<MessageObject> getAllMessagesByUser (String token) {
+        return persist.getAllMessagesByUser(token);
+    }
+
+    @RequestMapping("delete_message")
+    public boolean deleteMessageById ( int messageId) {
+        return persist.deleteMessageById(messageId);
+    }
+
+    @RequestMapping("Message_was_read")
+    public boolean MessageWasRead (int messageId) {
+        return persist.MessageWasRead(messageId);
     }
 
 
-    private UserObject getUserByToken (String token) {
-        UserObject found = null;
-        for (UserObject userObject : this.userObjects) {
-            if (userObject.getToken().equals(token)) {
-                found = userObject;
-                break;
-            }
-        }
-        return found;
+
+    @RequestMapping("countDownTries")
+    public void countDownTries(String username){
+        persist.countDownTries(username);
+    }
+    @RequestMapping("isBlocked")
+    public int isBlocked(String username){
+        return persist.isBlocked(username);
+    }
+    @RequestMapping("updateLoginTries")
+    public void updateLoginTries(String username){
+        persist.updateLoginTries(username);
     }
 
-    @RequestMapping("get-posts")
-    public List<PostObject> getPosts (String token) {
-        return persist.getPostsByUser(token);
+    @RequestMapping("doesUserExist")
+    public boolean doesUserExist(String username){
+        return persist.doesUserExist(username);
     }
-
-
-
-
-
-
 }

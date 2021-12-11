@@ -6,7 +6,7 @@ public class UserObject {
     private String username;
     private String password;
     private String token;
-    private List<PostObject> posts;
+    private List<MessageObject> messages;
 
     public String getUsername() {
         return username;
@@ -32,15 +32,15 @@ public class UserObject {
         this.token = token;
     }
 
-    public void addPost (String post) {
-            addPost(post);
+    public void addMessages (String message) {
+            addMessages(message);
     }
 
-    public List<PostObject> getPosts() {
-        return posts;
+    public List<MessageObject> getPosts() {
+        return messages;
     }
 
-    public void setPosts(List<PostObject> posts) {
-        this.posts = posts;
+    public void setPosts(List<MessageObject> posts) {
+        this.messages = posts;
     }
 }

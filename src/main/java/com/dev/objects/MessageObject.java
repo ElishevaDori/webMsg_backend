@@ -1,13 +1,34 @@
 package com.dev.objects;
 
+import java.util.List;
+
 public class MessageObject {
     private int messageId;
-    private int senderId;
+    private String senderId;
     private int receiverId;
     private String title;
     private String message;
-    private String sendDate;
-    private boolean read;
+    private int read;
+   private String sendDate;
+
+
+   public MessageObject(int messageId , String title, String message, String senderId, int receiverId,  int read){
+       this.messageId = messageId;
+       this.title = title;
+       this.message = message;
+       this.senderId = senderId;
+       this.receiverId = receiverId;
+       this.read = read;
+   }
+    public MessageObject() {
+        this.messageId = -1;
+        this.title = "";
+        this.message = "";
+        this.senderId = "";
+        this.receiverId =-1;
+        this.read = -1;
+    }
+
 
     public int getMessageId() {
         return messageId;
@@ -17,11 +38,11 @@ public class MessageObject {
         this.messageId = messageId;
     }
 
-    public int getSenderId() {
+    public String getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(int senderId) {
+    public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
 
@@ -49,19 +70,14 @@ public class MessageObject {
         this.message = message;
     }
 
-    public String getSendDate() {
-        return sendDate;
-    }
+    public String getSendDate() {return sendDate;}
 
-    public void setSendDate(String sendDate) {
-        this.sendDate = sendDate;
-    }
+    public void setSendDate(String sendDate) {this.sendDate = sendDate;}
 
-    public boolean isRead() {
-        return read;
-    }
+    public int getRead() { return read;}
 
-    public void setRead(boolean read) {
-        this.read = read;
+    public void setRead(int read) { this.read = read;}
+
+    public void add(List<MessageObject> messageObjects) {
     }
 }
