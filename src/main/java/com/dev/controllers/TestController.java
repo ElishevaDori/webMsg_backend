@@ -55,15 +55,20 @@ public class TestController {
         }
         return success;
     }
-    private UserObject getUserByToken (String token) {
-        UserObject found = null;
-        for (UserObject userObject : this.userObject) {
-            if (userObject.getToken().equals(token)) {
-                found = userObject;
-                break;
-            }
-        }
-        return found;
+
+    @RequestMapping ("get-all-messages")
+    public List<MessageObject> getAllMessagesByUser (String token) {
+    return persist.getAllMessagesByUser(token);
+    }
+
+    @RequestMapping ("delete_message")
+    public boolean deleteMessageById(int messageId){
+        return persist.deleteMessageById(messageId);
+    }
+
+    @RequestMapping ("Message_was_read")
+    public boolean MessageWasRead(int messageId) {
+        return persist.MessageWasRead(messageId);
     }
 
     @RequestMapping("add-message")
