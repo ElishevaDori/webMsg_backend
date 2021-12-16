@@ -70,5 +70,18 @@ public class TestController {
     public boolean addMessage(String token,String receiverPhone,  String title,String content) {
         return persist.addMessage(token,receiverPhone,title,content);
     }
+    @RequestMapping("countDownTries")
+    public void countDownTries(String username){
+        persist.countDownTries(username);
+    }
+
+    @RequestMapping("isBlocked")
+    public int isBlocked(String username){
+        return persist.isBlocked(username);
+    }
+    @RequestMapping("updateLoginTries")
+    public void updateLoginTries(String username){
+        persist.updateLoginTries(username);
+    }
 
 }

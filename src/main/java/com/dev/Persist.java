@@ -126,4 +126,44 @@ public class Persist {
         return receiverId;
     }
 
+    public void countDownTries(String username){
+        try{
+            PreparedStatement preparedStatement = this.connection.prepareStatement(
+                    "UPDATE users SET login_tries = login_tries - 1 WHERE username = ?");
+            preparedStatement.setString(1, username);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public int isBlocked(String username){
+        //returns number of tries 0 is blocked
+        try{
+            PreparedStatement preparedStatement = this.connection.prepareStatement(
+                    "SELECT login_tries FROM users WHERE username = ?");
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("login_tries");
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void updateLoginTries(String username){
+        //updates user's login tries back to 5, activate this only when a user successfully logins
+        try {
+            PreparedStatement preparedStatement = this.connection.prepareStatement(
+                    "UPDATE users  SET login_tries = 5 WHERE username = ?");
+            preparedStatement.setString(1, username);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
 }
